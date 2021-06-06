@@ -1,0 +1,31 @@
+<html>
+    <head>
+        <title>All Leaguemates</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body style="width: 100%">
+         <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+        <h1>{{  username  }}</h1>
+        <h2>Leaguemates</h2>
+        <form action="/leaguemates/<username>/all"; method="post">
+        <ol style="list-style: none; display: table; border-spacing: 15px; width: 100%; margin: auto">
+            {% for leaguemate in leaguematesDict|dictsort(false, 'value')|reverse %}
+            <li style="display: table-row;">
+                {% if leaguemate[0] != username %}
+                <p style="display: table-cell; width: 1%; white-space: nowrap;">{{  leaguemate[0] }}</p><p style="display: table-cell; width: 1%; white-space: nowrap;">{{  leaguematesDict[leaguemate[0]]  }}</p>
+                <button 
+                    class="submit" 
+                    type="submit" 
+                    name="submitUsername" 
+                    value="{{  leaguemate[0]  }}"
+                    style="width: 15%; display: table-cell;" 
+                    >
+                    <span class="front">view all leaguemates</span>
+                </button>
+                {% endif %}
+            </li>
+            {% endfor %}
+        </ol>
+    </form>
+    </body>
+</html>

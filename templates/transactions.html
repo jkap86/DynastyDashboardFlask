@@ -1,0 +1,83 @@
+<html>
+    <head>
+        <title>Transactions</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+        <h1>{{  username  }}</h1>
+        <h2>Transactions</h2>
+        <table>
+            {% for transactionAll in transactionsAll|sort(attribute='date', reverse=True) %}
+                <tr class="transaction">
+                    <td><strong>{{  transactionAll['date'][5:10]  }}-{{  transactionAll['date'][0:4]  }} </strong><span style="font-size: 10px">{{  transactionAll['date'][11:] }}</span></td>
+                    <td>{{  transactionAll['league']  }}</td>
+                    <td>{{  transactionAll['transaction']['type'].replace("_", " ")  }}</td>
+                    {% if transactionAll['transaction']['type'] == 'trade' %}
+                        <td>
+                            {% if transactionAll['transaction']['adds'] %}
+                            <ul>
+                            {% for player in transactionAll['transaction']['adds'].keys() %}
+                                {% if transactionAll['transaction']['adds'][player] == transactionAll['roster-id'] %}
+                                <li>acquire {{  allPlayers[player]['position'] + " " + allPlayers[player]['first_name'] + " " + allPlayers[player]['last_name'] + " " + allPlayers[player]['team']  }}</li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if transactionAll['transaction']['draft_picks'] %}
+                            <ul>
+                            {% for i in range(0, transactionAll['draft-pick-count']) %}
+                                {% if transactionAll['transaction']['draft_picks'][i]['owner_id'] == transactionAll['roster-id'] %}
+                                    <li>acquire {{  transactionAll['transaction']['draft_picks'][i]['season']  }} Round {{  transactionAll['transaction']['draft_picks'][i]['round']  }} ({{  transactionAll['userKey'][transactionAll['transaction']['draft_picks'][i]['roster_id']]  }})</li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transactionAll['transaction']['drops'] %}
+                            <ul>
+                            {% for player in transactionAll['transaction']['drops'].keys() %}
+                                {% if transactionAll['transaction']['drops'][player] == transactionAll['roster-id'] %}    
+                                <li>trade away {{  allPlayers[player]['position'] + " " + allPlayers[player]['first_name'] + " " + allPlayers[player]['last_name'] + " " + allPlayers[player]['team']  }}</li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                            {% if transactionAll['transaction']['draft_picks'] %}
+                            <ul>
+                            {% for i in range(0, transactionAll['draft-pick-count']) %}
+                                {% if transactionAll['transaction']['draft_picks'][i]['previous_owner_id'] == transactionAll['roster-id'] %}
+                                <li>trade away {{  transactionAll['transaction']['draft_picks'][i]['season']  }} Round {{  transactionAll['transaction']['draft_picks'][i]['round']  }} 
+                                ({{  transactionAll['userKey'][transactionAll['transaction']['draft_picks'][i]['roster_id']]  }})</li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </td>
+                    {% else %}
+                        <td>
+                            {% if transactionAll['transaction']['adds'] %}
+                            <ul>
+                            {% for player in transactionAll['transaction']['adds'].keys() %}
+                                <li>add {{  allPlayers[player]['position'] + " " + allPlayers[player]['first_name'] + " " + allPlayers[player]['last_name'] + " " + allPlayers[player]['team']|default('Free Agent', true)  }}</li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if transactionAll['transaction']['drops'] %}
+                            <ul>
+                            {% for player in transactionAll['transaction']['drops'].keys() %}
+                                <li>drop {{  allPlayers[player]['position'] + " " + allPlayers[player]['first_name'] + " " + allPlayers[player]['last_name'] + " " + allPlayers[player]['team']|default('Free Agent', true)  }}</li>
+                            {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </table>
+            <p>{{  errors  }}</p>
+    </body>
+</html>

@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <title>Overview</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+        <h1>{{  username  }}</h1>
+        <h2>Leagues: {{  leaguesCount  }}</h2>
+        <form action="/info/<username" method="post">
+        <ol style="display: table; border-spacing: 15px">
+            {% for league in leagues %}
+                <li style="display: table-row;">
+                    <p style="display: table-cell;">{{  league['name']  }}</p> 
+                    <button 
+                        class="submit" 
+                        type="submit" 
+                        name="submitLeagueID" 
+                        value="{{  league['league_id']  }}"
+                        style="display: table-cell;" 
+                        >
+                        <span class="front">view roster</span>
+                    </button>
+                </li>
+            {% endfor %}
+        </ol>
+        </form>
+    </body>
+</html>

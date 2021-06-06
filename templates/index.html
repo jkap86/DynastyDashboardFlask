@@ -1,0 +1,42 @@
+<html>
+    <head>
+        <title>Dynasty Dashboard</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+    </head>
+    <body>
+        <h1>Dynasty Dashboard</h1>
+                <ul class="nav">
+                    <li class="nav-tab"><button class="submit" onclick="toggle()"><span id="nav-view-leagues" class="front">View All Leagues</span></button></li>
+                    <li class="nav-tab"><button class="submit" onclick="toggle2()"><span id="nav-view-common" class="front">View Common Leagues</span></button></li>
+                    <li class="nav-tab"><button class="submit" onclick="toggle3()"><span id="nav-view-transactions" class="front">View All Transactions</span></button></li>
+                    <li class="nav-tab"><button class="submit" onclick="toggle4()"><span id="nav-view-all-leaguemates" class="front">View All Leaguemates</span></button></li>
+                    <li class="nav-tab"><button class="submit" onclick="toggle5()"><span id="nav-search-player" class="front">Search Player</span></button></li>
+                </ul>                    
+    <form action="/" autocomplete="off" method="post" class="input">
+            <div class="nav-item" id="view-leagues" style="display: none;">
+                <p style="display: inline;"><input type="text" name="username" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="submit"><span class="front">View All Leagues</span></button></p>
+            </div>
+            <div class="nav-item" id="view-common" style="display: none;">
+                <p style="display: inline;"><input type="text" name="leaguemateName" placeholder="username"><input type="text" name="leaguemateName2" placeholder="leaguemate name">&nbsp;&nbsp;<button class="submit" type="submit", name="submitButton" value="view-common-leagues"><span class="front">View Common Leagues</span></button></p>
+            </div>
+            <div class="nav-item" id="view-transactions" style="display: none;">
+                <p style="display: inline;"><input type="text" name="username3" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="view-transactions"><span class="front">View All Transactions</span></button></p>
+            </div>
+            <div class="nav-item" id="view-all-leaguemates" style="display: none;">
+                <p style="display: inline;"><input type="text" name="username2" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="view-all-leaguemates"><span class="front">View All Leaguemates</span></button></p>
+            </div>
+            <div class="nav-item" id="view-player-search" style="display: none;">
+                <p style="display: inline;">
+                    <input type="text" name="search-player" placeholder="player" list="playersAuto">
+                        <datalist id="playersAuto">
+                            {% for player in allPlayers|sort(attribute='first_name') %}
+                                <option value="{{  player['first_name'] }} {{  player['last_name']  }} {{  player['position']  }} {{  player['team']|default('Free Agent', True)  }}"/>
+                            {% endfor %}
+                        </datalist>
+                    <input type="text" name="username4" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit", name="submitButton" value="view-player-search"><span class="front">Search Player</span></button>
+                </p>
+            </div>
+    </form>
+    </body>
+</html>

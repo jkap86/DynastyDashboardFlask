@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>Common Leagues</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+        <h1>{{  leaguemateName + " and " + leaguemateName2  }}</h1>
+        <h2>Common Leagues: {{  commonLeaguesCount  }}</h2>
+        
+            {% for league in commonLeagues %}
+            <form action="/leaguemates/<leaguemateName>/>leaguemateName2>" method="post">
+                <ol style="width: 100%; border-spacing: 15px;">
+                <li style="display: table-row;">
+                    <p style="display: table-cell; width: 1%; white-space: nowrap;">{{  league['name']  }}</p>
+                    <input type="hidden" name="submitLeagueID" value="{{  league['league_id']  }}">
+                    <button 
+                        class="submit" 
+                        type="submit" 
+                        name="submitLeaguemateName" 
+                        value="{{  leaguemateName }}"
+                        style="display: table-cell;" 
+                        >
+                        <span class="front">view {{  leaguemateName  }} roster</span>
+                    </button>
+                    <button 
+                        class="submit" 
+                        type="submit" 
+                        name="submitLeaguemateName" 
+                        value="{{  leaguemateName2  }}"
+                        style="display: table-cell;" 
+                        >
+                        <span class="front">view {{  leaguemateName2  }} roster</span>
+                    </button>
+                </li>
+            </form>
+        </ol>
+            {% endfor %}
+    </body>
+</html>

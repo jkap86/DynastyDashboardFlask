@@ -1,0 +1,26 @@
+<html>
+    <head>
+        <title>Player Search Results</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    </head>
+    <body>
+        <h1>{{  username  }}</h1>
+        <h2>{{  playerSearch  }}</h2>
+        <h4>{{  leaguesCount  }} Shares</h4>
+        <ol style="display: table; border-spacing: 15px">
+        	{% for league in leaguesList.keys() %}
+                    <li style="font-size: 18px; display: table-row;">
+                        {% if leaguesList[league] == 'Available' %}
+                            <p style="display: table-cell;">{{  league  }}:</p>  <p style="color: green; display: inline;">{{  leaguesList[league]  }}</p>
+                        {% elif leaguesList[league] == username %}
+                            <p style="display: table-cell;" class="owned">{{  league  }}:</p>  <p style="color: blue; display: inline;">{{  leaguesList[league]  }}</p>
+                        {% else %}
+                       		<p style="display: table-cell;">{{  league  }}:</p>  <p style="color: red; display: inline;">{{  leaguesList[league]  }}</p>
+                        {% endif %}
+                    </li>
+                {%endfor%}
+
+        </ol>
+        
+    </body>
+</html>

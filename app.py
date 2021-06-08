@@ -53,6 +53,18 @@ def getAvatarThumb(username):
 	avatarThumb = 'https://sleepercdn.com/avatars/thumbs/' + avatarID 
 	return avatarThumb          
 
+@app.route('/update_server', methods=['POST'])
+    def webhook():
+        if request.method == 'POST':
+            repo = git.Repo('path/to/git_repo')
+            origin = repo.remotes.origin
+
+origin.pull()
+
+return 'Updated PythonAnywhere successfully', 200
+   	else:
+     	return 'Wrong event type', 400
+
 @app.route('/', methods=['POST', 'GET'])
 def index():
 	username = request.form.get('username')

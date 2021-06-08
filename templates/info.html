@@ -6,9 +6,11 @@
     <body>
         <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
         <h1>{{  username  }}</h1>
+        <img style="margin: auto; width: 25%; display: block; border-radius: 50%;" src="{{  avatar  }}">
         <h2>Leagues: {{  leaguesCount  }}</h2>
+        <h4>Previous Year Record: {{  pwins  }}-{{  plosses  }}</h4>
         <form action="/info/<username" method="post">
-        <ol style="display: table; border-spacing: 15px">
+        <ol style="display: table; border-spacing: 15px; margin: auto;">
             {% for league in leagues %}
                 <li style="display: table-row;">
                     <p style="display: table-cell;">{{  league['name']  }}</p> 

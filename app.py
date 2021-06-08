@@ -41,7 +41,19 @@ def getRosters(league):
 def getTransactions(league):
 	transactions = requests.get('https://api.sleeper.app/v1/league/' + league['league_id'] + '/transactions/1')
 	transactions = transactions.json()
-	return transactions           
+	return transactions
+
+def getAvatar(username):
+	x = requests.get('https://api.sleeper.app/v1/user/' + username)
+	avatarID = x.json()['avatar']
+	avatar = 'https://sleepercdn.com/avatars/' + avatarID
+	return avatar
+
+def getAvatarThumb(username):
+	x = requests.get('https://api.sleeper.app/v1/user/' + username)
+	avatarID = x.json()['avatar']
+	avatarThumb = 'https://sleepercdn.com/avatars/thumbs/' + avatarID 
+	return avatarThumb          
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -84,7 +96,23 @@ def info(username):
 			return redirect(url_for('roster', leagueID=leagueID, username=username))
 	else:
 		leagues = getLeagues(username)
-	return render_template('info.html', username=username, leagues=leagues, leaguesCount=len(leagues))
+		userID = getUserIDfromUsername(username)
+		x = requests.get("https://api.sleeper.app/v1/user/" + userID)
+		avatarID = x.json()['avatar']
+		pwins = 0
+		plosses = 0
+		for league in leagues:
+			rosters = getRosters(league)
+			for roster in rosters:
+				if roster['owner_id'] == userID:
+					if roster['metadata']:
+						if 'record' in roster['metadata'].keys():
+							record = roster['metadata']['record']
+							pwins = pwins + record.count('W')
+							plosses = plosses + record.count('L')
+					
+
+	return render_template('info.html', username=username, leagues=leagues, leaguesCount=len(leagues), pwins=pwins, plosses=plosses, avatar="https://sleepercdn.com/avatars/" + avatarID)
 
 @app.route('/transactions/<username>')
 def transactions(username):
@@ -104,7 +132,7 @@ def transactions(username):
 				draftPicks = list(filter(lambda x:x['roster_id'], transaction['draft_picks']))
 				for draftPick in draftPicks:
 					userKey[draftPick['roster_id']] = getUsername(getUserIDfromRosterID(draftPick['roster_id'], rosters))
-				transactionsAll.append({'transaction':transaction, 'league':league['name'], 'date':transaction['status_updated'], 'roster-id':rosterID['roster_id'], 'draft-pick-count':len(transaction['draft_picks']), 'userKey':userKey })
+				transactionsAll.append({'transaction':transaction, 'league':league['name'], 'status':transaction['status'], 'date':transaction['status_updated'], 'roster-id':rosterID['roster_id'], 'draft-pick-count':len(transaction['draft_picks']), 'userKey':userKey })
 		except NameError:
 			pass
 	return render_template('transactions.html', username=username, allPlayers=allPlayers, transactionsAll=transactionsAll)
@@ -127,6 +155,7 @@ def leaguemates(leaguemateName, leaguemateName2):
 @app.route('/leaguemates/<username>/all', methods=["POST", "GET"] )
 def leaguematesAll(username):
 	leaguemates = []
+	avatarThumbs = {}
 	if request.method == 'POST':
 		leaguemateName = request.form.get("submitUsername")
 		if request.form['submitUsername'] != None:
@@ -136,12 +165,15 @@ def leaguematesAll(username):
 			usersLeague = requests.get('https://api.sleeper.app/v1/league/' + league['league_id'] + '/users')
 			for user in usersLeague.json():
 				leaguemates.append({'user-id': user['display_name'], 'league': league['name']})
+				if user['avatar']:
+					avatarThumbs[user['display_name']] = 'https://sleepercdn.com/avatars/thumbs/' + user['avatar']
 		myDict = {}
 		for d in leaguemates:
 			c = d['user-id']
 			myDict[c] = myDict.get(c,0)+1
+	avatar = getAvatar(username)
 			
-	return render_template('leaguematesAll.html', username=username, leaguematesDict=myDict)
+	return render_template('leaguematesAll.html', username=username, leaguematesDict=myDict, avatar=avatar, avatarThumbs=avatarThumbs)
 
 @app.route('/<username>/<playerSearch>')
 def playerSearchResults(username ,playerSearch):
@@ -150,6 +182,8 @@ def playerSearchResults(username ,playerSearch):
 	leaguesWith = {}
 	leaguesOwned = []
 	leagues = getLeagues(username)
+	pwins = 0
+	plosses = 0
 	for league in leagues:
 		rosters = getRosters(league)
 		ownerName = 'Available'
@@ -163,15 +197,23 @@ def playerSearchResults(username ,playerSearch):
 							ownerID = roster['owner_id']
 							info = requests.get('https://api.sleeper.app/v1/user/' + str(ownerID))
 							ownerName = info.json()['username']
-							leaguesWith[league['name']] = ownerName
+							if lp in roster['starters']:
+								leaguesWith[league['name']] = [ownerName, 'starter']
+							else:
+								leaguesWith[league['name']] = [ownerName, 'bench']
 							if ownerName == username:
 								leaguesOwned.append(league['name'])
+								if roster['metadata']:
+									if 'record' in roster['metadata'].keys():
+										record = roster['metadata']['record']
+										pwins = pwins + record.count('W')
+										plosses = plosses + record.count('L')
 					except KeyError:
 						pass
 		if ownerName == 'Available':
 			leaguesWith[league['name']] = ownerName	
 
-	return render_template('playerSearchResults.html', playerSearch=playerSearch, username=username, leaguesCount=len(leaguesOwned), leaguesList=leaguesWith)
+	return render_template('playerSearchResults.html', playerSearch=playerSearch, username=username, leaguesCount=len(leaguesOwned), leaguesOwned=leaguesOwned, leaguesList=leaguesWith, pwins=pwins, plosses=plosses)
 
 @app.route('/roster/<username>/<leagueID>', methods=["POST", "GET"])
 def roster(leagueID, username):
@@ -182,12 +224,24 @@ def roster(leagueID, username):
 	leagueName = league['name']
 	rosters = requests.get('https://api.sleeper.app/v1/league/' + leagueID + '/rosters')
 	rosters = rosters.json()
-	leaguemates =[]
+	leaguemates = []
 	for roster in rosters:
+		x = requests.get("https://api.sleeper.app/v1/user/" + roster['owner_id'])
+		avatarID = x.json()['avatar']
 		if roster['owner_id'] == userID:
 			players = roster['players'] or []
+			wins = roster['settings']['wins']
+			losses = roster['settings']['losses']
+			ties = roster['settings']['ties']
+			if roster['metadata']:	
+				record = roster['metadata']['record']
+				pwins = record.count('W')
+				plosses = record.count('L')
+			else:
+				pwins = "n/a"
+				plosses = "Inaugural Season"
 		else:
-			leaguemates.append(getUsername(roster['owner_id']))
+			leaguemates.append([getUsername(roster['owner_id']), avatarID])
 	playersNames = []
 	for player in players:
 		try:
@@ -197,7 +251,7 @@ def roster(leagueID, username):
 		except TypeError:
 			pass
 	playersNames.sort()
-	return render_template('roster.html', leagueName=leagueName, teamName=username, players=playersNames, playerCount=len(playersNames), leaguemates=leaguemates)
+	return render_template('roster.html', leagueName=leagueName, teamName=username, players=playersNames, playerCount=len(playersNames), leaguemates=leaguemates, wins=wins, losses=losses, ties=ties, pwins=pwins, plosses=plosses, leagueID=leagueID)
 
 
 app.run(host='0.0.0.0', port=81, debug=True)

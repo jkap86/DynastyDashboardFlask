@@ -6,26 +6,28 @@
     <body style="width: 100%">
          <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
         <h1>{{  username  }}</h1>
+        <img src="{{  avatar  }}" style="margin: auto; width: 25%; display: block; border-radius: 50%;">
         <h2>Leaguemates</h2>
         <form action="/leaguemates/<username>/all"; method="post">
-        <ol style="list-style: none; display: table; border-spacing: 15px; width: 100%; margin: auto">
+        <table style="border-spacing: 15px; width: 50%; margin: auto; font-weight: 900; font-size: 24px;">
             {% for leaguemate in leaguematesDict|dictsort(false, 'value')|reverse %}
-            <li style="display: table-row;">
+            <tr>
                 {% if leaguemate[0] != username %}
-                <p style="display: table-cell; width: 1%; white-space: nowrap;">{{  leaguemate[0] }}</p><p style="display: table-cell; width: 1%; white-space: nowrap;">{{  leaguematesDict[leaguemate[0]]  }}</p>
+                <td><img src="{{  avatarThumbs[leaguemate[0]]  }}" style="border-radius: 50%;"></td><td><p style="display: inline;">{{  leaguemate[0] }}</p></td><td style="display: table-cell; width: 1%; white-space: nowrap;">{{  leaguematesDict[leaguemate[0]]  }}</td>
+                <td>
                 <button 
                     class="submit" 
                     type="submit" 
                     name="submitUsername" 
                     value="{{  leaguemate[0]  }}"
-                    style="width: 15%; display: table-cell;" 
                     >
                     <span class="front">view all leaguemates</span>
                 </button>
+                </td>
                 {% endif %}
-            </li>
+            </tr>
             {% endfor %}
-        </ol>
+        </table>
     </form>
     </body>
 </html>

@@ -1,23 +1,30 @@
 h1 { 
 	text-align: center;
-	color: blue;
+	color: #773141;
 	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-size: 100px;
-	text-shadow: 3px 3px lightblue;
+	text-shadow: 3px 3px #FFB612;
+	margin-top: 0;
 }
 
 h2 {
 	text-align: center;
 }
 
+h4 {
+	text-align: center;
+}
+
 body {
 	text-align: left;
 	background: black;
-	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	color: white;
-	padding: 3%;
+	font-family: "Lucida Console", "Courier New", monospace;
+	font-weight: 900;
+	color: #773141;
+	text-shadow: 0.25px 0.25px #FFB612;
 	width: 100%
 	margin: auto;
+	font-size: 24px;
 }
 
 ol li {
@@ -34,6 +41,7 @@ button {
 	border: none;
     padding: 0;
     cursor: pointer;
+    background-color: #773141;
 }
 
 .front {
@@ -43,17 +51,19 @@ button {
     margin: auto;
     padding: 5px 10px;
     border-radius: inherit;
-    background: #008B8B;
-    color: white;
+    background: #FFB612;
+    color: #773141;
     font-weight: bolder;
     transform: translateY(-6px);
+    text-shadow: 1px 1px white;
+    font-size: 20px;
   }
 
   button:active .front {
     transform: translateY(-2px);
   }
 
-  .nav {
+.nav {
 	text-align: center;
 	justify-content: center;
 	width: 100%;
@@ -82,10 +92,12 @@ button {
 	outline: none;
 	padding: 15px 30px;
 	font-size: 24px;
+	box-shadow: 7px 7px #773141;
+	border: solid 5px #FFB612;
 }
 
 .nav-item p input:focus {
-	border: solid blue;
+	border: solid white;
 }
 
 form.input {
@@ -97,12 +109,22 @@ form.input {
 	padding: 5px 10px
 }
 
-.transaction:hover {
-	outline: solid red;
-}
-
 .transaction td {
 	vertical-align: top;
 }
 
+table tr:hover {
+	cursor: pointer;
+	outline: solid white;	
+}
 
+td {
+	white-space: nowrap;
+	padding-left: 0;
+}
+
+a {
+	color: #FFB612;
+	text-shadow: 1px 1px #773141;
+	text-decoration: none;	
+}

@@ -6,12 +6,12 @@
     </head>
     <body>
         <h1>Dynasty Dashboard</h1>
-                <ul class="nav">
-                    <li class="nav-tab"><button class="submit" onclick="toggle()"><span id="nav-view-leagues" class="front">View All Leagues</span></button></li>
-                    <li class="nav-tab"><button class="submit" onclick="toggle2()"><span id="nav-view-common" class="front">View Common Leagues</span></button></li>
-                    <li class="nav-tab"><button class="submit" onclick="toggle3()"><span id="nav-view-transactions" class="front">View All Transactions</span></button></li>
-                    <li class="nav-tab"><button class="submit" onclick="toggle4()"><span id="nav-view-all-leaguemates" class="front">View All Leaguemates</span></button></li>
-                    <li class="nav-tab"><button class="submit" onclick="toggle5()"><span id="nav-search-player" class="front">Search Player</span></button></li>
+                <ul class="nav" style="font-size: 24px;">
+                    <li class="nav-tab"><button class="submit" id="sub-view-leagues" onclick="toggle()"><span id="nav-view-leagues" class="front">View All Leagues</span></button></li>
+                    <li class="nav-tab"><button class="submit" id="sub-view-common" onclick="toggle2()"><span id="nav-view-common" class="front">View Common Leagues</span></button></li>
+                    <li class="nav-tab"><button class="submit" id="sub-view-transactions" onclick="toggle3()"><span id="nav-view-transactions" class="front">View All Transactions</span></button></li>
+                    <li class="nav-tab"><button class="submit" id="sub-view-all-leaguemates" onclick="toggle4()"><span id="nav-view-all-leaguemates" class="front">View All Leaguemates</span></button></li>
+                    <li class="nav-tab"><button class="submit" id="sub-search-player" onclick="toggle5()"><span id="nav-search-player" class="front">Search Player</span></button></li>
                 </ul>                    
     <form action="/" autocomplete="off" method="post" class="input">
             <div class="nav-item" id="view-leagues" style="display: none;">

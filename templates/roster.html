@@ -7,12 +7,14 @@
         <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
         <form action="/roster/<username>/<leagueID>" method="post">
             <h1>{{ leagueName  }}</h1>
-            <ul style="margin: auto;">
+            <ul class="leaguemates" style="margin: auto; text-align: center; white-space: nowrap; overflow: scroll;">
                 {% for leaguemate in leaguemates %}
-                <li style="display: inline; margin: 10px">{{  leaguemate  }}</li>
+                <li style="display: inline; margin: 10px"><span><a href="{{url_for('roster', leagueID=leagueID, username=leaguemate[0])}}">{{  leaguemate[0]  }}</a></span><img style="display: inline-block; width: 25px; border-radius: 50%;" src="{{  'https://sleepercdn.com/avatars/thumbs/' + leaguemate[1]  }}"></li>
                 {% endfor %}
             </ul>
             <h2>{{ teamName  }}</h2>
+            <h4>{{  wins  }}-{{  ties  }}-{{  losses  }}</h4>
+            <h4>Previous Year Record: {{  pwins  }}-{{  plosses  }}</h4>
             <ol style="list-style: none; font-weight: bolder; margin-left: 33%; width: 33%; white-space: nowrap;">
                 {% for player in players %}
                     {% if player[0:2] == 'QB' %}
@@ -24,7 +26,7 @@
                     {% elif player[0:2] == 'TE' %}
                         <li style="color: orange;">{{  player  }}</li>
                     {% else %}
-                        <li style="color: blue;">{{  player  }}</li>
+                        <li style="color:   blue;">{{  player  }}</li>
                     {% endif %}
                 {%endfor%}
             </ol>

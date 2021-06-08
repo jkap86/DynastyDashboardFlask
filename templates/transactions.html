@@ -7,10 +7,11 @@
         <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
         <h1>{{  username  }}</h1>
         <h2>Transactions</h2>
-        <table>
+        <table style="font-size: 14px; font-weight: 900; margin: 0; padding: 0; width: 100%; text-align: left; overflow: scroll">
             {% for transactionAll in transactionsAll|sort(attribute='date', reverse=True) %}
+                {% if transactionAll['status'] == 'complete' %}
                 <tr class="transaction">
-                    <td><strong>{{  transactionAll['date'][5:10]  }}-{{  transactionAll['date'][0:4]  }} </strong><span style="font-size: 10px">{{  transactionAll['date'][11:] }}</span></td>
+                    <td><strong>{{  transactionAll['date'][5:10]  }}-{{  transactionAll['date'][0:4]  }} </strong><span style="font-size: 10px; display: block;">{{  transactionAll['date'][11:] }}</span></td>
                     <td>{{  transactionAll['league']  }}</td>
                     <td>{{  transactionAll['transaction']['type'].replace("_", " ")  }}</td>
                     {% if transactionAll['transaction']['type'] == 'trade' %}
@@ -59,9 +60,15 @@
                         <td>
                             {% if transactionAll['transaction']['adds'] %}
                             <ul>
+                            {% if transactionAll['transaction']['type'] == 'waiver' %}
+                            {% for player in transactionAll['transaction']['adds'].keys() %}
+                                <li>add {{  allPlayers[player]['position'] + " " + allPlayers[player]['first_name'] + " " + allPlayers[player]['last_name'] + " " + allPlayers[player]['team']|default('Free Agent', true) + " for $" + transactionAll['transaction']['settings']['waiver_bid']|default('0', true)|string  }}</li>
+                            {% endfor %}
+                            {% else %}
                             {% for player in transactionAll['transaction']['adds'].keys() %}
                                 <li>add {{  allPlayers[player]['position'] + " " + allPlayers[player]['first_name'] + " " + allPlayers[player]['last_name'] + " " + allPlayers[player]['team']|default('Free Agent', true)  }}</li>
                             {% endfor %}
+                            {% endif %}
                             </ul>
                             {% endif %}
                         </td>
@@ -76,6 +83,7 @@
                         </td>
                     {% endif %}
                 </tr>
+                {% endif %}
             {% endfor %}
         </table>
             <p>{{  errors  }}</p>

@@ -1,5 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, jsonify, session
-from flask_bootstrap import Bootstrap 
+from flask import Flask, render_template, request, redirect, url_for, jsonify, session 
 from flask_session import Session
 import requests
 import json
@@ -9,8 +8,7 @@ from operator import itemgetter
 app = Flask(__name__)
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
-Session(app)
-Bootstrap(app)  
+Session(app) 
 
 def getUsername(userID):
 	url = requests.get('https://api.sleeper.app/v1/user/' + str(userID))
@@ -254,4 +252,5 @@ def roster(leagueID, username):
 	return render_template('roster.html', leagueName=leagueName, teamName=username, players=playersNames, playerCount=len(playersNames), leaguemates=leaguemates, wins=wins, losses=losses, ties=ties, pwins=pwins, plosses=plosses, leagueID=leagueID)
 
 
-app.run(host='0.0.0.0', port=81, debug=True)
+app.run(threaded=True, port=5000)
+

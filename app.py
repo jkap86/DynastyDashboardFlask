@@ -54,16 +54,15 @@ def getAvatarThumb(username):
 	return avatarThumb          
 
 @app.route('/update_server', methods=['POST'])
-    def webhook():
-        if request.method == 'POST':
-            repo = git.Repo('path/to/git_repo')
-            origin = repo.remotes.origin
+def webhook():
+	if request.method == 'POST':
+   		repo = git.Repo('path/to/git_repo')
+  		origin = repo.remotes.origin
 
-origin.pull()
-
-return 'Updated PythonAnywhere successfully', 200
-   	else:
-     	return 'Wrong event type', 400
+		origin.pull()
+		return 'Updated PythonAnywhere successfully', 200
+	else:
+    	return 'Wrong event type', 400
 
 @app.route('/', methods=['POST', 'GET'])
 def index():

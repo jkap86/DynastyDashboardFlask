@@ -255,5 +255,3 @@ def roster(leagueID, username):
 			pass
 	playersNames.sort()
 	return render_template('roster.html', leagueName=leagueName, teamName=username, players=playersNames, playerCount=len(playersNames), leaguemates=leaguemates, wins=wins, losses=losses, ties=ties, pwins=pwins, plosses=plosses, leagueID=leagueID)
-
-app.run(debug=True)

@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for, jsonify, session 
 from flask_session import Session
+from flask_bootstrap import Bootstrap
 import requests
 import json
 import datetime
@@ -8,7 +9,8 @@ from operator import itemgetter
 app = Flask(__name__)
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
-Session(app) 
+Session(app)
+Bootstrap(app) 
 
 def getUsername(userID):
 	url = requests.get('https://api.sleeper.app/v1/user/' + str(userID))
@@ -69,6 +71,7 @@ def index():
 	allPlayersKeys = list(allPlayers.keys())
 	session['allPlayers'] = allPlayers
 	session['username'] = username
+	favTeam = request.form.get("team")
 	if request.form.get('submitButton') == 'view-transactions':
 		return redirect(url_for('transactions', username=username3))
 	elif request.form.get('submitButton') == 'submit':
@@ -80,10 +83,11 @@ def index():
 	elif request.form.get('submitButton') == 'view-player-search':
 		return redirect(url_for('playerSearchResults', username=username4, playerSearch=playerSearch))
 	else:
+		favTeam = request.form.get("team")
 		for key in allPlayersKeys:
 			players.append(allPlayers[key])
 
-	return render_template('index.html', allPlayers=players)
+	return render_template('index.html', allPlayers=players, favTeam=favTeam or 'was')
 
 @app.route('/info/<username>', methods=["POST", "GET"])
 def info(username):
@@ -110,7 +114,7 @@ def info(username):
 							plosses = plosses + record.count('L')
 					
 
-	return render_template('info.html', username=username, leagues=leagues, leaguesCount=len(leagues), pwins=pwins, plosses=plosses, avatar="https://sleepercdn.com/avatars/" + avatarID)
+	return render_template('info.html', username=username, leagues=leagues, leaguesCount=len(leagues), pwins=pwins, plosses=plosses, avatar="https://sleepercdn.com/avatars/" + avatarID, favTeam=session.get('fav-team'))
 
 @app.route('/transactions/<username>')
 def transactions(username):
@@ -138,6 +142,7 @@ def transactions(username):
 @app.route('/leaguemates/<leaguemateName>/<leaguemateName2>', methods=["POST", "GET"])
 def leaguemates(leaguemateName, leaguemateName2):
 	commonLeagues = []
+	favTeam = session.get('fav-team')
 	if request.method == 'POST':
 		return redirect(url_for('roster', username=request.form.get('submitLeaguemateName'), leagueID=request.form.get('submitLeagueID')))	
 
@@ -148,7 +153,7 @@ def leaguemates(leaguemateName, leaguemateName2):
 			for j in range(0, len(leaguemateLeagues2)):
 				if leaguemateLeagues[i]['league_id'] == leaguemateLeagues2[j]['league_id']:
 					commonLeagues.append(leaguemateLeagues[i])
-	return render_template('leaguemates.html', leaguemateName=leaguemateName, leaguemateName2=leaguemateName2, commonLeagues=commonLeagues, commonLeaguesCount=len(commonLeagues))
+	return render_template('leaguemates.html', leaguemateName=leaguemateName, leaguemateName2=leaguemateName2, commonLeagues=commonLeagues, commonLeaguesCount=len(commonLeagues), favTeam=favTeam)
 
 @app.route('/leaguemates/<username>/all', methods=["POST", "GET"] )
 def leaguematesAll(username):
@@ -199,7 +204,7 @@ def playerSearchResults(username ,playerSearch):
 								leaguesWith[league['name']] = [ownerName, 'starter']
 							else:
 								leaguesWith[league['name']] = [ownerName, 'bench']
-							if ownerName == username:
+							if ownerName == username.lower():
 								leaguesOwned.append(league['name'])
 								if roster['metadata']:
 									if 'record' in roster['metadata'].keys():
@@ -251,4 +256,4 @@ def roster(leagueID, username):
 	playersNames.sort()
 	return render_template('roster.html', leagueName=leagueName, teamName=username, players=playersNames, playerCount=len(playersNames), leaguemates=leaguemates, wins=wins, losses=losses, ties=ties, pwins=pwins, plosses=plosses, leagueID=leagueID)
 
-
+app.run(debug=True)

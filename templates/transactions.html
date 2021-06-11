@@ -1,10 +1,10 @@
-<html>
-    <head>
-        <title>Transactions</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    </head>
-    <body>
-        <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+{% extends "base.html" %}
+
+    {% block head %}
+    {{ super () }}
+    {% endblock %}
+    
+    {% block body %}
         <h1>{{  username  }}</h1>
         <h2>Transactions</h2>
         <table style="font-size: 14px; font-weight: 900; margin: 0; padding: 0; width: 100%; text-align: left; overflow: scroll">
@@ -87,5 +87,4 @@
             {% endfor %}
         </table>
             <p>{{  errors  }}</p>
-    </body>
-</html>
+    {% endblock %}

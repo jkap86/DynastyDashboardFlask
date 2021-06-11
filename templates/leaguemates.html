@@ -1,10 +1,8 @@
-<html>
-    <head>
-        <title>Common Leagues</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    </head>
-    <body>
-        <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+{% extends "base.html" %}
+
+    {% block head %}
+    {% endblock %}
+    {% block content %}
         <h1>{{  leaguemateName + " and " + leaguemateName2  }}</h1>
         <h2>Common Leagues: {{  commonLeaguesCount  }}</h2>
         <table style="margin: auto; border-spacing: 15px; font-size: 24px; font-weight: 900;">
@@ -39,6 +37,4 @@
             {% endfor %}
         </table>
         </ol>
-            
-    </body>
-</html>
+    {% endblock %}

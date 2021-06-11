@@ -1,0 +1,31 @@
+<html>
+<head>
+	{% block head %}
+	<title>{% block title %}{% endblock %}DynastyDashboard</title>
+	{% block scripts %}
+	<script src="{{ url_for('static', filename='js/favoriteTeam.js') }}"></script>
+	<script src="{{ url_for('static', filename='js/index.js') }}"></script>
+	{% endblock %}
+	{% block styles %}
+	<link id="teamcss" rel="stylesheet" href="{{ url_for('static', filename='css/was.css') }}">
+	{% endblock %}
+	{% endblock %}
+</head>
+<body>
+	<nav>
+		<form id="fave-team" method="POST"></form>
+		<a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a>
+		<select id="team" name="team" onchange="favoriteTeam()">
+   			<option value="was">WAS</option>
+   		    <option value="phi">PHI</option>
+         	<option value="dal">DAL</option>
+         	<option value="nyg">NYG</option>
+       	</select></nav>
+	{% block body %}
+	<content>
+		{% block content %}
+		{% endblock %}
+	</content>
+	{% endblock %}
+</body>
+</html>

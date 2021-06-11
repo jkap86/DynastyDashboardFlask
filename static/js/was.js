@@ -1,4 +1,4 @@
-function toggle(color1, color2) {
+function toggle() {
 	var x = document.getElementById("view-leagues")
 	var y = document.getElementById("view-common")
 	var z = document.getElementById("view-transactions")
@@ -21,21 +21,21 @@ function toggle(color1, color2) {
 		z.style.display = "none";
 		a.style.display = "none";
 		b.style.display = "none";
-		xx.style.backgroundColor = color1;
-		yy.style.backgroundColor = color2;
-		zz.style.backgroundColor = color2;
-		aa.style.backgroundColor = color2;
-		bb.style.backgroundColor = color2;
-		xx.style.color = color2;
-		xxx.style.backgroundColor = color2;
-		yy.style.color = color1;
-		yyy.style.backgroundColor = color1;
-		zz.style.color = color1;
-		zzz.style.backgroundColor = color1;
-		aa.style.color = color1;
-		aaa.style.backgroundColor = color1;
-		bb.style.color = color1;
-		bbb.style.backgroundColor = color1;
+		xx.style.backgroundColor = "#773141";
+		yy.style.backgroundColor = "#FFB612";
+		zz.style.backgroundColor = "#FFB612";
+		aa.style.backgroundColor = "#FFB612";
+		bb.style.backgroundColor = "#FFB612";
+		xx.style.color = "#FFB612";
+		xxx.style.backgroundColor = "#FFB612";
+		yy.style.color = "#773141";
+		yyy.style.backgroundColor = "#773141";
+		zz.style.color = "#773141";
+		zzz.style.backgroundColor = "#773141";
+		aa.style.color = "#773141";
+		aaa.style.backgroundColor = "#773141";
+		bb.style.color = "#773141";
+		bbb.style.backgroundColor = "#773141";
 	}  
 }
 
@@ -62,21 +62,21 @@ function toggle2() {
 		z.style.display = "none";
 		a.style.display = "none";
 		b.style.display = "none";
-		xx.style.backgroundColor = color2;
-		yy.style.backgroundColor = color1;
-		zz.style.backgroundColor = color2;
-		aa.style.backgroundColor = color2;
-		bb.style.backgroundColor = color2;
-		yy.style.color = color2;
-		yyy.style.backgroundColor = color2;
-		xx.style.color = color1;
-		xxx.style.backgroundColor = color1;
-		zz.style.color = color1;
-		zzz.style.backgroundColor = color1;
-		aa.style.color = color1;
-		aaa.style.backgroundColor = color1;
-		bb.style.color = color1;
-		bbb.style.backgroundColor = color1;
+		xx.style.backgroundColor = "#FFB612";
+		yy.style.backgroundColor = "#773141";
+		zz.style.backgroundColor = "#FFB612";
+		aa.style.backgroundColor = "#FFB612";
+		bb.style.backgroundColor = "#FFB612";
+		yy.style.color = "#FFB612";
+		yyy.style.backgroundColor = "#FFB612";
+		xx.style.color = "#773141";
+		xxx.style.backgroundColor = "#773141";
+		zz.style.color = "#773141";
+		zzz.style.backgroundColor = "#773141";
+		aa.style.color = "#773141";
+		aaa.style.backgroundColor = "#773141";
+		bb.style.color = "#773141";
+		bbb.style.backgroundColor = "#773141";
 	}  
 }
 
@@ -103,21 +103,21 @@ function toggle3() {
 		z.style.display = "inline";
 		a.style.display = "none";
 		b.style.display = "none";
-		xx.style.backgroundColor = color2;
-		yy.style.backgroundColor = color2;
-		zz.style.backgroundColor = color1;
-		aa.style.backgroundColor = color2;
-		bb.style.backgroundColor = color2;
-		zz.style.color = color2;
-		zzz.style.backgroundColor = color2;
-		yy.style.color = color1;
-		yyy.style.backgroundColor = color1;
-		xx.style.color = color1;
-		xxx.style.backgroundColor = color1;
-		aa.style.color = color1;
-		aaa.style.backgroundColor = color1;
-		bb.style.color = color1;
-		bbb.style.backgroundColor = color1;
+		xx.style.backgroundColor = "#FFB612";
+		yy.style.backgroundColor = "#FFB612";
+		zz.style.backgroundColor = "#773141";
+		aa.style.backgroundColor = "#FFB612";
+		bb.style.backgroundColor = "#FFB612";
+		zz.style.color = "#FFB612";
+		zzz.style.backgroundColor = "#FFB612";
+		yy.style.color = "#773141";
+		yyy.style.backgroundColor = "#773141";
+		xx.style.color = "#773141";
+		xxx.style.backgroundColor = "#773141";
+		aa.style.color = "#773141";
+		aaa.style.backgroundColor = "#773141";
+		bb.style.color = "#773141";
+		bbb.style.backgroundColor = "#773141";
 	}  
 }
 
@@ -144,21 +144,21 @@ function toggle4() {
 		z.style.display = "none";
 		a.style.display = "inline";
 		b.style.display = "none";
-		xx.style.backgroundColor = color2;
-		yy.style.backgroundColor = color2;
-		zz.style.backgroundColor = color2;
-		aa.style.backgroundColor = color1;
-		bb.style.backgroundColor = color2;
-		aa.style.color = color2;
-		aaa.style.backgroundColor = color2;
-		zz.style.color = color1;
-		zzz.style.backgroundColor = color1;
-		yy.style.color = color1;
-		yyy.style.backgroundColor = color1;
-		xx.style.color = color1;
-		xxx.style.backgroundColor = color1;
-		bb.style.color = color1;
-		bbb.style.backgroundColor = color1;
+		xx.style.backgroundColor = "#FFB612";
+		yy.style.backgroundColor = "#FFB612";
+		zz.style.backgroundColor = "#FFB612";
+		aa.style.backgroundColor = "#773141";
+		bb.style.backgroundColor = "#FFB612";
+		aa.style.color = "#FFB612";
+		aaa.style.backgroundColor = "#FFB612";
+		zz.style.color = "#773141";
+		zzz.style.backgroundColor = "#773141";
+		yy.style.color = "#773141";
+		yyy.style.backgroundColor = "#773141";
+		xx.style.color = "#773141";
+		xxx.style.backgroundColor = "#773141";
+		bb.style.color = "#773141";
+		bbb.style.backgroundColor = "#773141";
 	}  
 }
 
@@ -185,20 +185,20 @@ function toggle5() {
 		z.style.display = "none";
 		a.style.display = "none";
 		b.style.display = "inline";
-		xx.style.backgroundColor = color2;
-		yy.style.backgroundColor = color2;
-		zz.style.backgroundColor = color2;
-		aa.style.backgroundColor = color2;
-		bb.style.backgroundColor = color1;
-		bb.style.color = color2;
-		bbb.style.backgroundColor = color2;
-		aa.style.color = color1;
-		aaa.style.backgroundColor = color1;
-		zz.style.color = color1;
-		zzz.style.backgroundColor = color1;
-		yy.style.color = color1;
-		yyy.style.backgroundColor = color1;
-		xx.style.color = color1;
-		xxx.style.backgroundColor = color1;
+		xx.style.backgroundColor = "#FFB612";
+		yy.style.backgroundColor = "#FFB612";
+		zz.style.backgroundColor = "#FFB612";
+		aa.style.backgroundColor = "#FFB612";
+		bb.style.backgroundColor = "#773141";
+		bb.style.color = "#FFB612";
+		bbb.style.backgroundColor = "#FFB612";
+		aa.style.color = "#773141";
+		aaa.style.backgroundColor = "#773141";
+		zz.style.color = "#773141";
+		zzz.style.backgroundColor = "#773141";
+		yy.style.color = "#773141";
+		yyy.style.backgroundColor = "#773141";
+		xx.style.color = "#773141";
+		xxx.style.backgroundColor = "#773141";
 	}  
 }

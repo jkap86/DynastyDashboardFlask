@@ -1,10 +1,10 @@
-<html>
-    <head>
-        <title>All Leaguemates</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    </head>
-    <body style="width: 100%">
-         <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+{% extends "base.html" %}
+    {% block head %}
+    {{ super() }}
+    {% endblock %}
+
+
+    {% block body %}
         <h1>{{  username  }}</h1>
         <img src="{{  avatar  }}" style="margin: auto; width: 25%; display: block; border-radius: 50%;">
         <h2>Leaguemates</h2>
@@ -29,5 +29,4 @@
             {% endfor %}
         </table>
     </form>
-    </body>
-</html>
+    {% endblock %}

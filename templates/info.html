@@ -1,10 +1,11 @@
-<html>
-    <head>
-        <title>Overview</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
-    </head>
-    <body>
-        <nav><a href="{{url_for('index')}}" style="cursor: pointer; text-decoration: none;">Home</a></nav>
+{% extends "base.html" %}
+        
+{% block head %}
+    {{ super() }}
+    <link id="teamcss" rel="stylesheet" href="{{ url_for('static', filename='css/was.css') }}">
+{% endblock %}
+        
+{% block content %}
         <h1>{{  username  }}</h1>
         <img style="margin: auto; width: 25%; display: block; border-radius: 50%;" src="{{  avatar  }}">
         <h2>Leagues: {{  leaguesCount  }}</h2>
@@ -27,5 +28,4 @@
             {% endfor %}
         </ol>
         </form>
-    </body>
-</html>
+{% endblock %}

@@ -1,6 +1,8 @@
 {% extends "base.html" %}
 
     {% block head %}
+    {{ super() }}
+        <link id="teamcss" rel="stylesheet" href="{{ url_for('static', filename='css/was.css') }}">
     {% endblock %}
     {% block content %}
         <h1>{{  leaguemateName + " and " + leaguemateName2  }}</h1>

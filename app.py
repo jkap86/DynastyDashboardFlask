@@ -5,12 +5,18 @@ import requests
 import json
 import datetime
 from operator import itemgetter
+from flask_wtf import FlaskForm
+from wtforms import StringField, TextField, SubmitField
+from wtforms.validators import DataRequired, AnyOf
+
+
 
 app = Flask(__name__)
 SESSION_TYPE = 'filesystem'
 app.config.from_object(__name__)
 Session(app)
-Bootstrap(app) 
+Bootstrap(app)
+app.config['SECRET_KEY'] = "1111" 
 
 def getUsername(userID):
 	url = requests.get('https://api.sleeper.app/v1/user/' + str(userID))
@@ -53,7 +59,35 @@ def getAvatarThumb(username):
 	x = requests.get('https://api.sleeper.app/v1/user/' + username)
 	avatarID = x.json()['avatar']
 	avatarThumb = 'https://sleepercdn.com/avatars/thumbs/' + avatarID 
-	return avatarThumb          
+	return avatarThumb    
+
+
+
+class ViewLeaguesForm(FlaskForm):
+	username = StringField('username', [DataRequired()], render_kw={'placeholder': 'username', 'class': 'form'})
+
+class ViewCommonForm(FlaskForm):
+	leaguemateName = StringField('username', [DataRequired()], render_kw={'placeholder': 'username', 'class': 'form'})
+	leaguemateName2 = StringField('leaguemateName', [DataRequired()], render_kw={'placeholder': 'leaguemate name', 'class': 'form'})
+
+class ViewTransactions(FlaskForm):
+	username3 = StringField('username3', [DataRequired()], render_kw={'placeholder': 'username', 'class': 'form'})
+
+class ViewAllLeaguemates(FlaskForm):
+	username2 = StringField('username2', [DataRequired()], render_kw={'placeholder': 'username', 'class': 'form'})
+
+players = []
+allPlayers = open('allplayers.txt', 'r')
+allPlayers = allPlayers.read()
+allPlayers = json.loads(allPlayers)
+allPlayersKeys = list(allPlayers.keys())
+for key in allPlayersKeys:
+	players.append(allPlayers[key]['first_name'] + " " + allPlayers[key]['last_name'])
+
+
+class PlayerSearch(FlaskForm):
+	username4 = StringField('username4', [DataRequired()], render_kw={'placeholder': 'username', 'class': 'form'})
+	playerSearch = StringField('playerSearch', [DataRequired()], render_kw={'placeholder': 'player', 'class': 'form'})
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
@@ -61,7 +95,7 @@ def index():
 	username2 = request.form.get('username2')
 	username3 = request.form.get('username3')
 	username4 = request.form.get('username4')
-	playerSearch = request.form.get('search-player')
+	playerSearch = request.form.get('playerSearch')
 	leaguemateName = request.form.get('leaguemateName')
 	leaguemateName2 = request.form.get('leaguemateName2')
 	allPlayers = open('allplayers.txt', 'r')
@@ -83,11 +117,16 @@ def index():
 	elif request.form.get('submitButton') == 'view-player-search':
 		return redirect(url_for('playerSearchResults', username=username4, playerSearch=playerSearch))
 	else:
+		form = ViewLeaguesForm(request.form)
+		form2 = ViewCommonForm(request.form)
+		form3 = ViewTransactions(request.form)
+		form4 = ViewAllLeaguemates(request.form)
+		form5 = PlayerSearch(request.form)
 		favTeam = request.form.get("team")
 		for key in allPlayersKeys:
 			players.append(allPlayers[key])
 
-	return render_template('index.html', allPlayers=players, favTeam=favTeam or 'was')
+	return render_template('index.html', allPlayers=players, favTeam=favTeam or 'was', form=form, form2=form2, form3=form3, form4=form4, form5=form5)
 
 @app.route('/info/<username>', methods=["POST", "GET"])
 def info(username):

@@ -17,29 +17,31 @@
                     <li class="nav-tab"><button class="submit" id="sub-view-all-leaguemates" onclick="toggle4()"><span id="nav-view-all-leaguemates" class="front">View All Leaguemates</span></button></li>
                     <li class="nav-tab"><button class="submit" id="sub-search-player" onclick="toggle5()"><span id="nav-search-player" class="front">Search Player</span></button></li>
                 </ul>                    
-    <form action="/" autocomplete="off" method="post" class="input">
+    <div class="input">
             <div class="nav-item" id="view-leagues" style="display: none;">
-                <p style="display: inline;"><input type="text" name="username" placeholder="username">&nbsp;&nbsp;<button id="show-leagues" class="submit" type="submit" name='submitButton' value="submit"><span id="show-leagues2" class="front">View All Leagues</span></button></p>
+                <p style="display: inline;"><form method="POST">{{  form.hidden_tag()  }}{{  form.username()  }}&nbsp;&nbsp;<button id="show-leagues" class="submit" type="submit" name='submitButton' value="submit"><span id="show-leagues2" class="front">View All Leagues</span></button></form></p>
             </div>
             <div class="nav-item" id="view-common" style="display: none;">
-                <p style="display: inline;"><input type="text" name="leaguemateName" placeholder="username">&nbsp;&nbsp;<input type="text" name="leaguemateName2" placeholder="leaguemate name">&nbsp;&nbsp;<button class="submit" type="submit", name="submitButton" value="view-common-leagues"><span class="front">View Common Leagues</span></button></p>
+                <p style="display: inline;"><form method="POST">{{  form2.hidden_tag()  }}{{  form2.leaguemateName()  }}&nbsp;&nbsp;{{  form2.leaguemateName2()  }}&nbsp;&nbsp;<button class="submit" type="submit", name="submitButton" value="view-common-leagues"><span class="front">View Common Leagues</span></button></form></p>
             </div>
             <div class="nav-item" id="view-transactions" style="display: none;">
-                <p style="display: inline;"><input type="text" name="username3" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="view-transactions"><span class="front">View All Transactions</span></button></p>
+                <p style="display: inline;"><form method="POST">{{  form3.hidden_tag()  }}{{  form3.username3()  }}&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="view-transactions"><span class="front">View All Transactions</span></button></p>
             </div>
             <div class="nav-item" id="view-all-leaguemates" style="display: none;">
-                <p style="display: inline;"><input type="text" name="username2" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="view-all-leaguemates"><span class="front">View All Leaguemates</span></button></p>
+                <p style="display: inline;"><form method="POST">{{  form4.hidden_tag()  }}{{  form4.username2()  }}&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="view-all-leaguemates"><span class="front">View All Leaguemates</span></button></form></p>
             </div>
             <div class="nav-item" id="view-player-search" style="display: none;">
                 <p style="display: inline;">
-                    <input type="text" name="search-player" placeholder="player" list="playersAuto">
+                    <form method="POST">
+                    {{  form5.hidden_tag()  }}  {{  form5.playerSearch(list="playersAuto")  }}
                         <datalist id="playersAuto">
                             {% for player in allPlayers|sort(attribute='first_name') %}
                                 <option value="{{  player['first_name'] }} {{  player['last_name']  }} {{  player['position']  }} {{  player['team']|default('Free Agent', True)  }}"/>
                             {% endfor %}
                         </datalist>
-                    <input type="text" name="username4" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit", name="submitButton" value="view-player-search"><span class="front">Search Player</span></button>
+                    {{  form5.username4()  }}&nbsp;&nbsp;<button class="submit" type="submit", name="submitButton" value="view-player-search"><span class="front">Search Player</span></button>
+                    </form>
                 </p>
             </div>
-    </form>
+    </div>
     {% endblock %}

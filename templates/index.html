@@ -4,6 +4,7 @@
         {{ super() }}
         {% block scripts %}
         {{ super() }}
+        <script src="{{ url_for('static', filename='js/index.js') }}"></script>
         {% endblock %}
     {% endblock %}
     
@@ -18,7 +19,7 @@
                 </ul>                    
     <form action="/" autocomplete="off" method="post" class="input">
             <div class="nav-item" id="view-leagues" style="display: none;">
-                <p style="display: inline;"><input type="text" name="username" placeholder="username">&nbsp;&nbsp;<button class="submit" type="submit" name='submitButton' value="submit"><span class="front">View All Leagues</span></button></p>
+                <p style="display: inline;"><input type="text" name="username" placeholder="username">&nbsp;&nbsp;<button id="show-leagues" class="submit" type="submit" name='submitButton' value="submit"><span id="show-leagues2" class="front">View All Leagues</span></button></p>
             </div>
             <div class="nav-item" id="view-common" style="display: none;">
                 <p style="display: inline;"><input type="text" name="leaguemateName" placeholder="username">&nbsp;&nbsp;<input type="text" name="leaguemateName2" placeholder="leaguemate name">&nbsp;&nbsp;<button class="submit" type="submit", name="submitButton" value="view-common-leagues"><span class="front">View Common Leagues</span></button></p>

@@ -1,4 +1,4 @@
-function toggle(color1, color2) {
+function toggle() {
 	var x = document.getElementById("view-leagues")
 	var y = document.getElementById("view-common")
 	var z = document.getElementById("view-transactions")
@@ -14,6 +14,8 @@ function toggle(color1, color2) {
 	var zzz = document.getElementById("sub-view-transactions")
 	var aaa = document.getElementById("sub-view-all-leaguemates")
 	var bbb = document.getElementById("sub-search-player")
+	/*color1 = window.getComputedStyle(xx, null).getPropertyValue("color")	
+	color2 = window.getComputedStyle(xx, null).getPropertyValue("background-color")*/
 
 	if (x.style.display == "none") {
 		x.style.display = "inline";
@@ -22,20 +24,20 @@ function toggle(color1, color2) {
 		a.style.display = "none";
 		b.style.display = "none";
 		xx.style.backgroundColor = color1;
-		yy.style.backgroundColor = color2;
-		zz.style.backgroundColor = color2;
-		aa.style.backgroundColor = color2;
-		bb.style.backgroundColor = color2;
+		yy.style.backgroundColor = "iniitial";
+		zz.style.backgroundColor = "iniitial";
+		aa.style.backgroundColor = "iniitial";
+		bb.style.backgroundColor = "iniitial";
 		xx.style.color = color2;
 		xxx.style.backgroundColor = color2;
-		yy.style.color = color1;
-		yyy.style.backgroundColor = color1;
-		zz.style.color = color1;
-		zzz.style.backgroundColor = color1;
-		aa.style.color = color1;
-		aaa.style.backgroundColor = color1;
-		bb.style.color = color1;
-		bbb.style.backgroundColor = color1;
+		yy.style.color = "iniitial";
+		yyy.style.backgroundColor = "iniitial";
+		zz.style.color = "iniitial";
+		zzz.style.backgroundColor = "iniitial";
+		aa.style.color = "iniitial";
+		aaa.style.backgroundColor = "iniitial";
+		bb.style.color = "iniitial";
+		bbb.style.backgroundColor = "iniitial";
 	}  
 }
 

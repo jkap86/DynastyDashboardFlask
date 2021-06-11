@@ -180,6 +180,7 @@ def leaguematesAll(username):
 
 @app.route('/<username>/<playerSearch>')
 def playerSearchResults(username ,playerSearch):
+	username = username.lower()
 	allPlayers = session.get('allPlayers')
 	leaguesPlayers = []
 	leaguesWith = {}
@@ -204,7 +205,7 @@ def playerSearchResults(username ,playerSearch):
 								leaguesWith[league['name']] = [ownerName, 'starter']
 							else:
 								leaguesWith[league['name']] = [ownerName, 'bench']
-							if ownerName == username.lower():
+							if ownerName == username:
 								leaguesOwned.append(league['name'])
 								if roster['metadata']:
 									if 'record' in roster['metadata'].keys():

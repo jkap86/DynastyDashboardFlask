@@ -8,6 +8,7 @@ from operator import itemgetter
 from flask_wtf import FlaskForm
 from wtforms import StringField, TextField, SubmitField
 from wtforms.validators import DataRequired, AnyOf
+import functools
 
 
 
@@ -76,15 +77,6 @@ class ViewTransactions(FlaskForm):
 class ViewAllLeaguemates(FlaskForm):
 	username2 = StringField('username2', [DataRequired()], render_kw={'placeholder': 'username', 'class': 'form'})
 
-players = []
-allPlayers = open('allplayers.txt', 'r')
-allPlayers = allPlayers.read()
-allPlayers = json.loads(allPlayers)
-allPlayersKeys = list(allPlayers.keys())
-for key in allPlayersKeys:
-	players.append(allPlayers[key]['first_name'] + " " + allPlayers[key]['last_name'])
-
-
 class PlayerSearch(FlaskForm):
 	username4 = StringField('username4', [DataRequired()], render_kw={'placeholder': 'username', 'class': 'form'})
 	playerSearch = StringField('playerSearch', [DataRequired()], render_kw={'placeholder': 'player', 'class': 'form'})
@@ -129,7 +121,9 @@ def index():
 	return render_template('index.html', allPlayers=players, favTeam=favTeam or 'was', form=form, form2=form2, form3=form3, form4=form4, form5=form5)
 
 @app.route('/info/<username>', methods=["POST", "GET"])
+@functools.lru_cache(maxsize=128)
 def info(username):
+	username = username.strip()
 	leagueID = request.form.get('submitLeagueID')
 	if request.method == 'POST':
 		username = session.get('username')
@@ -156,7 +150,9 @@ def info(username):
 	return render_template('info.html', username=username, leagues=leagues, leaguesCount=len(leagues), pwins=pwins, plosses=plosses, avatar="https://sleepercdn.com/avatars/" + avatarID, favTeam=session.get('fav-team'))
 
 @app.route('/transactions/<username>')
+@functools.lru_cache(maxsize=128)
 def transactions(username):
+	username = username.strip()
 	allPlayers = session.get('allPlayers')
 	transactionsAll = []
 	userID = getUserIDfromUsername(username)
@@ -179,7 +175,10 @@ def transactions(username):
 	return render_template('transactions.html', username=username, allPlayers=allPlayers, transactionsAll=transactionsAll)
 
 @app.route('/leaguemates/<leaguemateName>/<leaguemateName2>', methods=["POST", "GET"])
+@functools.lru_cache(maxsize=128)
 def leaguemates(leaguemateName, leaguemateName2):
+	leaguemateName = leaguemateName.strip()
+	leaguemateName2 = leaguemateName2.strip()
 	commonLeagues = []
 	favTeam = session.get('fav-team')
 	if request.method == 'POST':
@@ -195,7 +194,9 @@ def leaguemates(leaguemateName, leaguemateName2):
 	return render_template('leaguemates.html', leaguemateName=leaguemateName, leaguemateName2=leaguemateName2, commonLeagues=commonLeagues, commonLeaguesCount=len(commonLeagues), favTeam=favTeam)
 
 @app.route('/leaguemates/<username>/all', methods=["POST", "GET"] )
+@functools.lru_cache(maxsize=128)
 def leaguematesAll(username):
+	username = username.strip()
 	leaguemates = []
 	avatarThumbs = {}
 	if request.method == 'POST':
@@ -218,8 +219,9 @@ def leaguematesAll(username):
 	return render_template('leaguematesAll.html', username=username, leaguematesDict=myDict, avatar=avatar, avatarThumbs=avatarThumbs)
 
 @app.route('/<username>/<playerSearch>')
+@functools.lru_cache(maxsize=128)
 def playerSearchResults(username ,playerSearch):
-	username = username.lower()
+	username = username.lower().strip()
 	allPlayers = session.get('allPlayers')
 	leaguesPlayers = []
 	leaguesWith = {}
@@ -236,7 +238,7 @@ def playerSearchResults(username ,playerSearch):
 				leaguesPlayers.append(players)
 				for lp in players:
 					try:
-						if playerSearch == allPlayers[lp]['first_name'] + " " + allPlayers[lp]['last_name'] + " " + allPlayers[lp]['position'] + " " + str(allPlayers[lp]['team']):
+						if playerSearch == " ".join([allPlayers[lp]['first_name'], allPlayers[lp]['last_name'], allPlayers[lp]['position'], str(allPlayers[lp]['team'])]):
 							ownerID = roster['owner_id']
 							info = requests.get('https://api.sleeper.app/v1/user/' + str(ownerID))
 							ownerName = info.json()['username']
@@ -259,6 +261,7 @@ def playerSearchResults(username ,playerSearch):
 	return render_template('playerSearchResults.html', playerSearch=playerSearch, username=username, leaguesCount=len(leaguesOwned), leaguesOwned=leaguesOwned, leaguesList=leaguesWith, pwins=pwins, plosses=plosses)
 
 @app.route('/roster/<username>/<leagueID>', methods=["POST", "GET"])
+@functools.lru_cache(maxsize=128)
 def roster(leagueID, username):
 	allPlayers = session.get('allPlayers')
 	userID = getUserIDfromUsername(username)

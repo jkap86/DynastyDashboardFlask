@@ -13,10 +13,10 @@
 </head>
 <body>
 	<nav>
-		<form id="fave-team" method="POST"></form>
+		<form id="fave-team" method="POST" onsubmit="return false"></form>
 		<a href="{{url_for('index')}}" id="Home" style="cursor: pointer; text-decoration: none;">Home</a>
 		<select id="team" name="team" onchange="favoriteTeam()">
-   			<option value="was">WAS</option>
+   			<option value="was" selected>WAS</option>
    		    <option value="phi">PHI</option>
          	<option value="dal">DAL</option>
          	<option value="nyg">NYG</option>

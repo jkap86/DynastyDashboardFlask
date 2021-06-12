@@ -17,7 +17,7 @@
         <form action="/<username>/<playerSearch>">
         <table class="player-shares"style="display: table; font-size: 24px; font-weight: 900; margin: auto; width: 50%; border-spacing: 15px;">
         	{% for league in leaguesList.keys() %}
-            <tr style="white-space: nowrap;">
+            <tr class="player-share" style="white-space: nowrap;">
                 {% if leaguesList[league] == 'Available' %}
                     <td class="available">{{  league  }}:</td>  <td class="available">{{  leaguesList[league]  }}</td>
                 {% elif leaguesList[league][0] == username %}
